@@ -7,7 +7,8 @@ export const dynamic = "force-dynamic";
 
 async function getMenuData() {
   try {
-    const res = await fetch("http://localhost:5000/api/menu", {
+    const backendUrl = process.env.BACKEND_URL || "http://localhost:5000";
+    const res = await fetch(`${backendUrl}/api/menu`, {
       cache: "no-store",
     });
     if (!res.ok) return null;
@@ -27,7 +28,7 @@ export default async function HomePage() {
         <ShieldAlert className="w-16 h-16 text-amber-500 mb-4 animate-bounce" />
         <h1 className="text-2xl font-bold">Connecting to Lazeez Kalkata Server...</h1>
         <p className="text-sm text-amber-400 mt-2 max-w-md">
-          Please ensure backend Node server is running on port 3000 (`node server.js`).
+          Please ensure backend Node server is running on port 5000 (`node server.js`).
         </p>
       </div>
     );
