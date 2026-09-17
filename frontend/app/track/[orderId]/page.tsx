@@ -26,7 +26,8 @@ export default function TrackOrderPage() {
 
   const fetchOrder = async () => {
     try {
-      const res = await fetch(`/api/orders/${orderId}`);
+      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5000";
+      const res = await fetch(`${backendUrl}/api/orders/${orderId}`);
       if (!res.ok) {
         throw new Error("Order not found");
       }
@@ -43,7 +44,8 @@ export default function TrackOrderPage() {
     fetchOrder();
 
     // Setup SSE connection for real-time live updates
-    const eventSource = new EventSource("/api/orders/stream");
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5000";
+    const eventSource = new EventSource(`${backendUrl}/api/orders/stream`);
 
     eventSource.onmessage = (event) => {
       try {

@@ -73,7 +73,7 @@ export default function AdminDashboardPage() {
 
   const fetchOrders = async () => {
     try {
-      const backendUrl = typeof window !== 'undefined' && !process.env.NEXT_PUBLIC_BACKEND_URL?.includes('http') ? `${window.location.protocol}//${window.location.hostname}:5000` : (process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5000");
+      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5000";
       const res = await fetch(`${backendUrl}/api/orders`);
       if (res.ok) {
         const data = await res.json();
@@ -90,7 +90,7 @@ export default function AdminDashboardPage() {
     fetchOrders();
 
     // SSE for real-time updates
-    const backendUrl = typeof window !== 'undefined' && !process.env.NEXT_PUBLIC_BACKEND_URL?.includes('http') ? `${window.location.protocol}//${window.location.hostname}:5000` : (process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5000");
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5000";
     const eventSource = new EventSource(`${backendUrl}/api/orders/stream`);
 
     eventSource.onmessage = (event) => {
@@ -142,7 +142,7 @@ export default function AdminDashboardPage() {
 
   const updateOrderStatus = async (orderId: string, newStatus: string) => {
     try {
-      const backendUrl = typeof window !== 'undefined' && !process.env.NEXT_PUBLIC_BACKEND_URL?.includes('http') ? `${window.location.protocol}//${window.location.hostname}:5000` : (process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5000");
+      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5000";
       const res = await fetch(`${backendUrl}/api/orders/${orderId}/status`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -162,7 +162,7 @@ export default function AdminDashboardPage() {
   const markItemMissing = async (orderId: string, itemIndex: number) => {
     if (!window.confirm("Mark this item as missing and pause the order?")) return;
     try {
-      const backendUrl = typeof window !== 'undefined' && !process.env.NEXT_PUBLIC_BACKEND_URL?.includes('http') ? `${window.location.protocol}//${window.location.hostname}:5000` : (process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5000");
+      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5000";
       const res = await fetch(`${backendUrl}/api/orders/${orderId}/missing-item`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
