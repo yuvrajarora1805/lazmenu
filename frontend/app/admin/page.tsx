@@ -144,7 +144,7 @@ export default function AdminDashboardPage() {
     try {
       const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5000";
       const res = await fetch(`${backendUrl}/api/orders/${orderId}/status`, {
-        method: "PUT",
+        method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status: newStatus })
       });
