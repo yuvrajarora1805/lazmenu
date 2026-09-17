@@ -73,7 +73,8 @@ export default function AdminDashboardPage() {
 
   const fetchOrders = async () => {
     try {
-      const res = await fetch("/api/orders");
+      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5000";
+      const res = await fetch(`${backendUrl}/api/orders`);
       if (res.ok) {
         const data = await res.json();
         setOrders(data);
@@ -89,7 +90,8 @@ export default function AdminDashboardPage() {
     fetchOrders();
 
     // SSE for real-time updates
-    const eventSource = new EventSource("/api/orders/stream");
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5000";
+    const eventSource = new EventSource(`${backendUrl}/api/orders/stream`);
 
     eventSource.onmessage = (event) => {
       try {
@@ -138,10 +140,11 @@ export default function AdminDashboardPage() {
     }
   };
 
-    const updateOrderStatus = async (orderId: string, newStatus: string) => {
+  const updateOrderStatus = async (orderId: string, newStatus: string) => {
     try {
-      const res = await fetch(`/api/orders/${orderId}/status`, {
-        method: "PATCH",
+      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5000";
+      const res = await fetch(`${backendUrl}/api/orders/${orderId}/status`, {
+        method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status: newStatus })
       });
@@ -159,7 +162,8 @@ export default function AdminDashboardPage() {
   const markItemMissing = async (orderId: string, itemIndex: number) => {
     if (!window.confirm("Mark this item as missing and pause the order?")) return;
     try {
-      const res = await fetch(`/api/orders/${orderId}/missing-item`, {
+      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5000";
+      const res = await fetch(`${backendUrl}/api/orders/${orderId}/missing-item`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ itemIndex })
