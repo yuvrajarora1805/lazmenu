@@ -381,9 +381,13 @@ app.get("/api/orders", async (req, res) => {
 // SSE Stream Endpoint
 app.get("/api/orders/stream", (req, res) => {
     res.setHeader("Content-Type", "text/event-stream");
-    res.setHeader("Cache-Control", "no-cache");
+    res.setHeader("Cache-Control", "no-cache, no-transform");
     res.setHeader("Connection", "keep-alive");
+    res.setHeader("X-Accel-Buffering", "no"); // Disable Nginx buffering
     res.flushHeaders();
+
+    // Send an initial heartbeat comment to force the stream open through proxies
+    res.write(":\n\n");
 
     const clientId = Date.now();
     const newClient = { id: clientId, res };
