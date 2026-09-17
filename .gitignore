@@ -1,0 +1,11 @@
+node_modules/
+.env
+.next/
+restmenu.db
+restmenu.db-journal
+restmenu.db-wal
+restmenu.db-shm
+scratch/
+test_db.js
+test_stt.py
+*.log
