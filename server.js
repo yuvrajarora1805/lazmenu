@@ -468,8 +468,11 @@ app.post("/api/orders/:id/missing-item", async (req, res) => {
     }
 });
 
-// Admin Update Order Status
-app.patch("/api/orders/:id/status", async (req, res) => {
+// Admin Update Order Status (Support both PATCH and PUT for frontend compatibility)
+app.patch("/api/orders/:id/status", updateStatusHandler);
+app.put("/api/orders/:id/status", updateStatusHandler);
+
+async function updateStatusHandler(req, res) {
     try {
         const { status } = req.body;
         const orderId = req.params.id;
@@ -511,7 +514,7 @@ app.patch("/api/orders/:id/status", async (req, res) => {
     } catch(e) {
         res.status(500).json({error: "Database error"});
     }
-});
+}
 
 
 // State for interactive WhatsApp sessions
