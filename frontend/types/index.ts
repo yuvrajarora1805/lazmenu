@@ -49,7 +49,7 @@ export interface Order {
   deliveryFee: number;
   total: number;
   notes?: string;
-  status: "Received" | "Preparing" | "Out for Delivery" | "Delivered" | "Cancelled";
+  status: "Received" | "Accepted" | "Preparing" | "Out for Delivery" | "Delivered" | "Cancelled" | "Pending User Action";
   createdAt: string;
   updatedAt: string;
 }
